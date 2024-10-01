@@ -10,5 +10,15 @@ public class App {
         tree.countFathers();
         tree.countLeafNodes();
         tree.treeHeight();
+        tree.inOrder();
+        System.out.println("===============================================================================");
+        tree.removePairs();
+        System.out.println("Tree after using the method 'removePairs': ");
+        tree.inOrder();
+        tree.mirrorTree();
+        System.out.println("===============================================================================");
+        System.out.println("Tree after using the method 'mirrorTree': ");
+        tree.inOrder();
+    
     }
 }
