@@ -3,6 +3,15 @@ public class Node {
     private Node right;
     private Node left;
     private int value;
+    private Node next;
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
 
     public Node getRight() {
         return right;

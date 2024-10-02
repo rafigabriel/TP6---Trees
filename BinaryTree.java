@@ -41,30 +41,6 @@ public class BinaryTree {
     void postOrder() {
         postOrder(root);
     }
-
-    private void preOrder(Node element) {
-        if (element != null) {
-            System.out.println("Element: " + element.getValue());// ROOT
-            preOrder(element.getLeft());// LEFT
-            preOrder(element.getRight());// RIGHT
-        }
-    }
-
-    private void inOrder(Node element) {
-        if (element != null) {
-            inOrder(element.getLeft());// LEFT
-            System.out.println("Element: " + element.getValue());// ROOT
-            inOrder(element.getRight());// RIGHT
-        }
-    }
-
-    private void postOrder(Node element) {
-        if (element != null) {
-            postOrder(element.getLeft());// LEFT
-            postOrder(element.getRight());// RIGHT
-            System.out.println("Element: " + element.getValue());// ROOT
-        }
-    }
     
     /**
      * Remove um nó da árvore binária com o valor especificado.
@@ -81,6 +57,8 @@ public class BinaryTree {
         else {
             Node fatherNode;
             Node sonNode;
+
+            //Foi criado uma parte do código em que se trata exclusivamente a raiz em todos seus casos (1, 2 ou nenhum filho), pois antes de implementar essa parte, quando a raiz era o nó a ser removido, dava problemas na remoção.
             if (root.getValue() == value) {
                 fatherNode = root;
                 sonNode = root;
@@ -111,7 +89,7 @@ public class BinaryTree {
                 sonNode = fatherNode.getLeft();
             }
 
-        
+            //Caso em que é um nó folha
             if (sonNode.getRight() == null && sonNode.getLeft() == null) {
                 if (fatherNode.getValue() < value) {
                     fatherNode.setRight(null);
@@ -119,6 +97,7 @@ public class BinaryTree {
                     fatherNode.setLeft(null);
                 }
                 return true;
+            //Caso em que há 2 filhos
             } else if (sonNode.getRight() != null && sonNode.getLeft() != null) {
                 Node nodeFatherRightLeft = farLeftNode(sonNode, sonNode.getRight());
                 Node substitute = nodeFatherRightLeft.getLeft();
@@ -133,6 +112,7 @@ public class BinaryTree {
                 else {
                     fatherNode.setLeft(substitute);
                 }
+            //Caso de um filho só.
             } else {
                 if (sonNode.getRight() == null) {
                     if (fatherNode.getValue() > value) {
@@ -332,6 +312,69 @@ public class BinaryTree {
         //Após, a esquerda da raiz é apontado para a direita e vice e versa. 
         //Após isso o método é chamado recursivamente percorrendo as sub-árvores.
     }
+
+    //QUESTAO 7
+    private void preOrder(Node element) {
+        if (element != null) {
+            Node temp = element;
+            Stack stack = new Stack();
+            while (temp != null || !stack.empty()) {
+                if (temp != null) {
+                    System.out.println("Item: " + temp.getValue());
+                    stack.push(temp);
+                    temp = temp.getLeft();
+
+                }
+                else {
+                    temp = stack.pop();
+                    temp = temp.getRight();
+                }
+            }
+        }
+    }
+
+    private void inOrder(Node element) {
+        if (element != null) {
+            Stack stack = new Stack();
+            Node temp = element;
+            while (temp != null || !stack.empty()) {
+                if (temp != null) {
+                    stack.push(temp);
+                    temp = temp.getLeft();
+                }
+                else {
+                    temp = stack.pop();
+                    System.out.println("Item: " + temp.getValue());
+                    temp = temp.getRight();
+                }
+            }
+        }
+    }
+
+    private void postOrder(Node element) {
+        if (element != null) {
+            Stack stack = new Stack();
+            Stack secondStack = new Stack();
+            stack.push(element);
+
+            while (!stack.empty()) {
+                Node temp = stack.pop();
+                secondStack.push(temp);
+                if (temp.getRight() != null) {
+                    stack.push(temp.getRight());
+                }
+                if (temp.getLeft() != null) {
+                    stack.push(temp.getLeft());
+                }
+            }
+
+            while (!secondStack.empty()) {
+                Node temp = secondStack.pop();
+                System.out.println("Item: " + temp.getValue());
+            }
+        }
+    }
+
 
     void removePairs() {
         removePairs(root);
